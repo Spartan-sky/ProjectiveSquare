@@ -12,7 +12,7 @@
             <TransformGroup>
                 <ScaleTransform ScaleX="10" ScaleY="10"
                                 CenterX="0" CenterY="0" />
-                <TranslateTransform X="400" Y="225" />
+                <!--<TranslateTransform X="400" Y="225" />-->
             </TransformGroup>
         </Canvas.RenderTransform>
         
