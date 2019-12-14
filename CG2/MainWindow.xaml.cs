@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,11 +20,10 @@ namespace CG2
         public MainWindow()
         {
             InitializeComponent();
-
+            
             Canvas paper = Paper;
             const int nPoints = 8;
             const int nEdges = 12;
-            Line line = new Line();
 
             // Build a table of vertices
             double[,] vtable = new double[nPoints, 3]
@@ -45,48 +41,67 @@ namespace CG2
                 {2,6}, {3,7}, {4,5}, {5,6}, {6,7}, {7,4}
             };
 
-            double xmin = -0.5, xmax = 0.5;
-            double ymin = -0.5, ymax = 0.5;
-
-            Point[] pictureVertices = new Point[nPoints];
-            Ellipse dot = new Ellipse();
-            int scale = 40;
-            
-            for (int i = 0; i < nPoints; i++)
-            {
-                double x = vtable[i, 0];
-                double y = vtable[i, 1];
-                double z = vtable[i, 2];
-                double xprime = x / z;
-                double yprime = y / z;
-
-                x = scale *
-                    (1 - (xprime - xmin) / (xmax - xmin));
-                y = scale *
-                    (1 - (yprime - ymin) / (ymax - ymin));
-
-                dot = Dot(x, y);
-
-                paper.Children.Add(dot);
-            }
+            // Builds edges between vertices
             for(int i=0; i < nEdges; i++)
             {
                 int n1 = etable[i, 0];
                 int n2 = etable[i, 1];
+
+                double x1 = vtable[n1, 0];
+                double y1 = vtable[n1, 1];
+                double z1 = vtable[n1, 2];
+
+                x1 = NewXCoordinate(x1, z1);
+                y1 = NewYCoordinate(y1, z1);
+
+                double x2 = vtable[n2, 0];
+                double y2 = vtable[n2, 1];
+                double z2 = vtable[n2, 2];
+
+                x2 = NewXCoordinate(x2, z2);
+                y2 = NewYCoordinate(y2, z2);
+
+                paper.Children.Add(Line(x1, x2, y1, y2));
             }
         }
 
-        private Ellipse Dot(double x, double y)
+        private Line Line(double x1, double x2, double y1, double y2)
         {
-            Ellipse currentDot = new Ellipse();
-            currentDot.Stroke = new SolidColorBrush(Colors.Black);
-            currentDot.StrokeThickness = .1;
-            currentDot.Height = 1;
-            currentDot.Width = 1;
-            currentDot.Fill = new SolidColorBrush(Colors.Black);
-            currentDot.Margin = new Thickness(x, y, 0, 0);
+            return new Line
+            {
+                Stroke = new SolidColorBrush(Colors.Black),
+                StrokeThickness = .5,
+                X1 = x1,
+                Y1 = y1,
+                X2 = x2,
+                Y2 = y2
+            };
+        }
 
-            return currentDot;
+        private double NewXCoordinate(double x, double z)
+        {
+            double xmin = -0.5, xmax = 0.5;
+            int scale = 40;
+
+            double xprime = x / z;
+
+            x = scale *
+                (1 - (xprime - xmin) / (xmax - xmin));
+
+            return x;
+        }
+
+        private double NewYCoordinate(double y, double z)
+        {
+            double ymin = -0.5, ymax = 0.5;
+            int scale = 40;
+
+            double yprime = y / z;
+
+            y = scale *
+                (1 - (yprime - ymin) / (ymax - ymin));
+
+            return y;
         }
     }
 }
