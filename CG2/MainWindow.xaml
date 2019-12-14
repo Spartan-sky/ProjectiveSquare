@@ -7,14 +7,5 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Canvas Name="Paper">
-
-        <Canvas.RenderTransform>
-            <TransformGroup>
-                <ScaleTransform ScaleX="10" ScaleY="10"
-                                CenterX="0" CenterY="0" />
-                <!--<TranslateTransform X="400" Y="225" />-->
-            </TransformGroup>
-        </Canvas.RenderTransform>
-        
     </Canvas>
 </Window>
