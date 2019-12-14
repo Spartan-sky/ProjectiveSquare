@@ -9,6 +9,6 @@
       Title="StartupMenu">
 
     <Grid>
-        
+        <Button Content="HIT ME!"/>
     </Grid>
 </Page>
